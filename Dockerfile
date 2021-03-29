@@ -42,7 +42,7 @@ ADD . /data/
 WORKDIR /data
 
 # force download of file if not provided by local cache
-RUN [[ ! -f /data/models/ColorizeArtistic_gen.pth ]] && wget -O /data/models/ColorizeArtistic_gen.pth https://data.deepai.org/deoldify/ColorizeArtistic_gen.pth
+#RUN [[ ! -f /data/models/ColorizeArtistic_gen.pth ]] && wget -O /data/models/ColorizeArtistic_gen.pth https://data.deepai.org/deoldify/ColorizeArtistic_gen.pth
 
 COPY run_notebook.sh /usr/local/bin/run_notebook
 COPY run_image_api.sh /usr/local/bin/run_image_api
@@ -51,7 +51,7 @@ RUN chmod +x /usr/local/bin/run_notebook
 RUN chmod +x /usr/local/bin/run_image_api
 
 EXPOSE 8888
-EXPOSE 5000
+EXPOSE 5004
 
 # run notebook
 # ENTRYPOINT ["sh", "run_notebook"]
