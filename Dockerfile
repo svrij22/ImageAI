@@ -1,4 +1,4 @@
-From nvcr.io/nvidia/pytorch:19.04-py3
+FROM nvcr.io/nvidia/pytorch:19.04-py3
 
 RUN apt-get -y update && apt-get install -y \
 	python3-pip \
@@ -18,8 +18,6 @@ RUN wget -O /root/.torch/models/resnet34-333f7ec4.pth https://download.pytorch.o
 
 # if you want to avoid image building with downloading put your .pth file in root folder
 COPY Dockerfile ColorizeArtistic_gen.* /data/models/
-COPY Dockerfile ColorizeVideo_gen.* /data/models/
-
 
 RUN pip install --upgrade pip
 
@@ -45,15 +43,12 @@ WORKDIR /data
 
 # force download of file if not provided by local cache
 RUN [[ ! -f /data/models/ColorizeArtistic_gen.pth ]] && wget -O /data/models/ColorizeArtistic_gen.pth https://data.deepai.org/deoldify/ColorizeArtistic_gen.pth
-RUN [[ ! -f /data/models/ColorizeVideo_gen.pth ]] && wget -O /data/models/ColorizeVideo_gen.pth https://data.deepai.org/deoldify/ColorizeVideo_gen.pth
 
 COPY run_notebook.sh /usr/local/bin/run_notebook
 COPY run_image_api.sh /usr/local/bin/run_image_api
-COPY run_video_api.sh /usr/local/bin/run_video_api
 
 RUN chmod +x /usr/local/bin/run_notebook
 RUN chmod +x /usr/local/bin/run_image_api
-RUN chmod +x /usr/local/bin/run_video_api
 
 EXPOSE 8888
 EXPOSE 5000
@@ -61,8 +56,7 @@ EXPOSE 5000
 # run notebook
 # ENTRYPOINT ["sh", "run_notebook"]
 
-# run image api
-# ENTRYPOINT ["sh", "run_image_api"]
+ENTRYPOINT ["sh", "run_image_api"]
 
 # run image api
 # ENTRYPOINT ["sh", "run_video_api"]
